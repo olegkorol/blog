@@ -1,0 +1,80 @@
+---
+title: "Deploying Firebase from Google App Engine"
+date: 2025-02-02
+description: A note about deploying Firebase from Google App Engine.
+tags:
+  [
+    firebase,
+    gcp,
+    ci/cd,
+  ]
+author: Oleg Korol
+---
+
+import { Callout } from 'nextra/components'
+import { Steps } from 'nextra/components'
+
+<Callout type="default" emoji="ℹ️">
+  Authenticating with a token is not supported anymore from CI/CD pipelines.
+  Hence, we use `GOOGLE_APPLICATION_CREDENTIALS` in this guide.
+
+  > Authenticating with `--token` is deprecated and will be removed in a future major version of `firebase-tools`. Instead, use a service account key with `GOOGLE_APPLICATION_CREDENTIALS`.
+</Callout>
+
+
+Here's a step-by-step guide on how to deploy your Firebase project with GitHub Actions.
+
+You'll need to:
+1. Create a service account
+2. Create a service account key
+3. Create a GitHub secret
+4. Adapt GitHub Actions workflow
+
+<Steps>
+## Create service account
+
+In order to create a service account key, we need to create a new SA in GCP's IAM.
+`Firebase Develop Admin` alone doesn't seem to suffice, so we need these 4 roles roles:
+- Firebase Develop Admin
+- Cloud Functions Admin
+- Artifact Registry Administrator
+- Cloud Scheduler Admin
+- Eventarc Admin
+
+After this, we need to go to the AppEngine default service account (`<project_id>@appspot.gserviceaccount.com`), then `Permissions` and the click on `Grant Access`.
+Add the newly created service account as principal, with the role `Service Account User`.
+
+## Create service account key
+
+To create a key for the service account we just created, select the service account under `IAM`, then go to `KEYS`. Click on `ADD KEY` and select `json`.
+The key will be saved in a .json file. We'll use it in the next step.
+
+## Create a GitHub secret
+
+Now we want to create a secret in GitHub which stores the service account key that will be used in the GH Action.
+Go to (repository) `Settings`, then `Secrets and variables -> Actions`. Create a new secret and paste the content of the json above in it. Save.
+
+## Adapt the GitHub Actions workflow
+
+Now we need to add `GOOGLE_APPLICATION_CREDENTIALS` to the workflow:
+
+```yml
+# [...]
+- name: Install firebase tools
+  run: sudo npm i -g firebase-tools
+
+- name: Write GCP Service Account from env vars to file
+  env: GH_ACTIONS_SERVICE_ACCOUNT_MASTER: ${{ secrets.GH_ACTIONS_SERVICE_ACCOUNT_MASTER }}
+  run: echo $GH_ACTIONS_SERVICE_ACCOUNT_MASTER >   $HOME/serviceAccount.json
+
+- name: Install Dependencies
+  run: cd functions && npm i
+
+- name: Lint, Build & Deploy
+  run: |
+    export GOOGLE_APPLICATION_CREDENTIALS=$HOME/serviceAccount.json
+    cd functions
+    npm run deploy-master --json
+# [...]
+```
+</Steps>

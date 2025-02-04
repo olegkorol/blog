@@ -1,0 +1,67 @@
+---
+title: "Rust: Borrowing and Ownership"
+date: 2025-02-03
+description: A note about borrowing and ownership (in Rust).
+tags:
+  [
+    rust,
+    notes,
+  ]
+author: Oleg Korol
+---
+
+
+How Borrowing and Ownership works in Rust:
+
+```rust
+fn main() {
+    let s = String::from("hello");  // s comes into scope
+    let s2 = gives_ownership();
+
+    let a_string = String::from("hello");
+    let s3 = takes_and_gives_back(a_string);
+
+    println!("[main s] {s}");
+    println!("[main s2] {s2}");
+    println!("[main s3] {s3}");
+
+    borrows(&s); // s's value moves into the function...
+                 // ... and so is no longer valid here
+
+    println!("[main s] {s}");
+
+    takes_ownership(s);
+    
+    let x = 5; // x comes into scope
+
+    makes_copy(x); // x would move into the function,
+                   // but i32 is Copy, so it's okay to still
+                   // use x afterward
+
+} // Here, x goes out of scope, then s. But because s's value was moved, nothing
+  // special happens.
+
+fn borrows(some_string: &String) { // some_string comes into scope, as a borrow
+    println!("[borrows] {some_string}");
+} // Here, some_string goes out of scope and `drop` is called. The backing
+  // memory is freed.
+
+fn takes_ownership(some_string: String) { // some_string comes into scope
+    println!("[takes_ownership] {some_string}");
+} // Here, some_string goes out of scope and `drop` is called. The backing
+  // memory is freed.
+
+fn gives_ownership() -> String {
+    let some_string = String::from("world"); // some_string comes into scope
+    some_string // some_string is returned and moves out to the calling function
+}
+
+fn takes_and_gives_back(a_string: String) -> String { // a_string comes into scope
+    println!("[takes_and_gives_back] {a_string}");
+    a_string // a_string is returned and moves out to the calling function
+}
+
+fn makes_copy(some_integer: i32) { // some_integer comes into scope
+    println!("[makes_copy] {some_integer}");
+} // Here, some_integer goes out of scope. Nothing special happens.
+```

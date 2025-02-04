@@ -1,0 +1,93 @@
+---
+title: "Next.js on Deno Deploy"
+date: 2025-02-04
+description: A note about deploying Next.js to Deno.
+tags:
+  [
+    deno,
+    nextjs,
+  ]
+author: Oleg Korol
+---
+
+import { Callout, Steps } from 'nextra/components'
+
+Here's a step-by-step guide on how to deploy your Next.js app to Deno Deploy.
+
+<Steps>
+## Create a new Next.js app
+
+```bash
+npx create-next-app@latest
+```
+
+<Callout type="info" emoji="ℹ️">
+  Or use an existing Next.js project.
+</Callout>
+
+## Check your Deno installation
+
+Make sure you have Deno installed:
+
+```bash
+deno --version
+# deno should be >=2.0.0, if not run `deno upgrade`
+# if the command was not found, head to https://deno.com/
+```
+
+You should be able to run the app locally in development mode:
+
+```bash
+deno run dev
+```
+
+## Build the app
+
+Let's build the app:
+
+```bash
+deno run build
+```
+
+## Deno Deploy(ment)
+
+You'll need `deployctl` to deploy to Deno Deploy:
+
+```bash
+# check if you have it installed
+deployctl --version
+
+# if not, you can install it with
+deno install -gArf jsr:@deno/deployctl
+```
+
+Alright, let's actually deploy our Next.js app.
+
+<Callout type="warning">
+  The process differs slightly based on the version of Next.js you're using.
+
+  Pick *one* of the commands below.
+</Callout>
+
+
+```bash
+# For Next.js 15
+deployctl deploy --include=.next --include=public jsr:@deno/nextjs-start/v15
+
+# For Next.js 14
+deployctl deploy --include=.next --include=public jsr:@deno/nextjs-start
+```
+</Steps>
+
+That's it!
+
+By the way, you'll see that a `deno.json` file is created in the root of the project.<br />
+It will be used in the future to know where to deploy the app.
+
+You can find the full example repo on [github.com/olegkorol/deno-nextjs](https://github.com/olegkorol/deno-nextjs).
+
+### References
+
+- https://github.com/nextjs/deploy-deno
+- https://jsr.io/@deno/nextjs-start
+- https://nextjs.org/docs/app/api-reference/cli/create-next-app

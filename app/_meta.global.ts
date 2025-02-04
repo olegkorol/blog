@@ -4,6 +4,10 @@ export default {
   },
   posts: {
     type: 'page',
-    items: {}
+    items: {
+      reference: {
+        display: 'hidden'
+      }
+    }
   }
 }

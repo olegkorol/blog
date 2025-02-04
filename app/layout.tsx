@@ -8,16 +8,25 @@ export const metadata = {
   title: "Oleg Korol",
   description: "Oleg Korol's blog"
 }
-
-const backgroundColors = {
-  dark: '#0f172a',
-  light: '#fafafa'
-}
  
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <Head backgroundColor={backgroundColors} faviconGlyph="📒"/>
+      <Head
+       faviconGlyph="📒"
+       color={{
+          hue: 0,
+          saturation: 0,
+          lightness: {
+            light: 50,
+            dark: 100,
+          }
+        }}
+        backgroundColor={{
+          light: '#fafafa',
+          dark: '#0f172a'
+        }}
+       />
       <body>
         <Layout>
           <Navbar pageMap={await getPageMap()}>

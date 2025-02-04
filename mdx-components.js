@@ -14,7 +14,7 @@ const blogComponents = getBlogMDXComponents({
   //   </h1>
   // ),
   DateFormatter: ({ date }) =>
-    `last update on ${date.toLocaleDateString('en-GB', {
+    `last updated on ${date.toLocaleDateString('en-GB', {
       day: 'numeric',
       month: 'short',
       year: 'numeric'

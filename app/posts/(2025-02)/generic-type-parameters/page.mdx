@@ -1,0 +1,106 @@
+---
+title: "TypeScript: Generic Type Parameters"
+date: 2025-02-04
+description: A note about TypeScript generic type parameters.
+tags:
+  [
+    typescript,
+  ]
+author: Oleg Korol
+---
+
+If you've used libraries like Supabase, you've probably seen something like this:
+
+```ts filename="supabase.ts"
+const supabase = new SupabaseClient<Database>()
+```
+
+This `Database` type is a so-called generic type parameter.
+
+Let's say our `Database` type looks like this:
+
+```ts filename="types.ts"
+type Database = {
+  tables: {
+    users: {
+      Row: {
+        id: number
+        name: string
+        email: string
+      }
+      Insert: {
+        name: string
+        email: string
+        id?: number
+      }
+      Update: {
+        name?: string
+        email?: string
+        id?: number
+      }
+    }
+    posts: {
+      Row: {
+        id: number
+        title: string
+        user_id: number
+      }
+      Insert: {
+        title: string
+        user_id: number
+        id?: number
+      }
+      Update: {
+        title?: string
+        user_id?: number
+        id?: number
+      }
+    }
+  }
+}
+```
+
+By passing this type to the database client, you get **full type safety** when interacting with your database.
+This comes in pretty handy to make your code more robust and easier to reason about.
+
+Let's take a look at a simple example:
+
+```ts filename="database-queries.ts"
+// Now TypeScript knows all your table types!
+const supabase = new SupabaseClient<Database>()
+
+// TypeScript will tell you that this returns `Promise<{ id: number, name: string, email: string }[]>`
+const users = await supabase
+  .from('users')
+  .select()
+
+// TypeScript validates the insert and shows an error if you try to insert a different shape from the `Insert` type
+const newUser = await supabase
+  .from('users')
+  .insert({ name: 'John', email: 'john@example.com' }) 
+```
+
+### Ok, but how does this work exactly?
+
+The client class would need to look something like this:
+
+```ts filename="supabase-client.ts"
+// Create a generic client
+class SupabaseClient<T = any> {
+  constructor() {
+    // ... implementation
+  }
+
+  from<TableName extends keyof T['tables']>(
+    table: TableName
+  ) {
+    return {
+      select: () => Promise<T['tables'][TableName]['Row'][]>,
+      insert: (data: T['tables'][TableName]['Insert']) => Promise<T['tables'][TableName]['Row']>,
+      update: (data: T['tables'][TableName]['Update']) => Promise<T['tables'][TableName]['Row']>
+    }
+  }
+}
+```
+
+And voilà! This is how `SupabaseClient` can accept generic type parameters.

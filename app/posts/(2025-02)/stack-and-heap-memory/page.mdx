@@ -1,0 +1,64 @@
+---
+title: Stack and Heap Memory
+date: 2025-02-01
+description: A note about stack and heap memory (in Rust).
+tags:
+  [
+    rust,
+    notes,
+  ]
+author: Oleg Korol
+---
+
+import { Cards } from 'nextra/components'
+
+<Cards>
+  <Cards.Card
+    icon={"🥞"}
+    title="Stack"
+    href="#stack"
+  />
+  <Cards.Card
+    icon={"📀"}
+    title="Heap"
+    href="#heap"
+  />
+</Cards>
+
+## Stack
+
+First in, first out. Faster.
+Some data-types are entirely stored in Stack Memory, e.g. integers, floating points, booleans, characters, etc.
+
+| name     | value            |
+| -------- | ---------------- |
+| ptr      | memory_address   |
+| len      | 5                |
+| capacity | 5                |
+
+ptr: pointer to heap memory<br />
+len: length of memory used<br />
+capacity: memory allocated<br />
+
+## Heap
+
+Slower. Memory has to be allocated and Rust needs to keep track of where to find everything in the heap memory.
+Some more complex data-types store "metadata" on the Stack Memory and its "content" on the Heap Memory, e.g. `String`.
+
+| index | value |
+| ----- | ----- |
+| 0     | h     |
+| 1     | e     |
+| 2     | l     |
+| 3     | l     |
+| 4     | o     |
+
+
+## Shallow vs Deep Copies
+
+- Shallow --> only Stack memory is copied.
+- Deep --> both Stack and Heap are copied.
+
+### References
+
+- [The Rust Programming Language](https://doc.rust-lang.org/book/ch04-01-what-is-ownership.html).
