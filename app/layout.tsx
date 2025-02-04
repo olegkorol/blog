@@ -2,6 +2,7 @@ import { Footer, Layout, Navbar, ThemeSwitch } from 'nextra-theme-blog'
 import { Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import 'nextra-theme-blog/style.css'
+import './global.css'
  
 export const metadata = {
   title: "Oleg Korol",
@@ -19,11 +20,10 @@ export default async function RootLayout({ children }: { children: React.ReactNo
       <Head backgroundColor={backgroundColors} faviconGlyph="📒"/>
       <body>
         <Layout>
-            <Navbar pageMap={await getPageMap()}>
-              <Search placeholder="Search..." />
-              <ThemeSwitch />
+          <Navbar pageMap={await getPageMap()}>
+            <Search placeholder="Search..." />
+            <ThemeSwitch />
           </Navbar>
- 
           {children}
  
           <Footer>

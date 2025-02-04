@@ -4,10 +4,6 @@ export default {
   },
   posts: {
     type: 'page',
-    items: {
-      draft: {
-        display: 'hidden'
-      }
-    }
+    items: {}
   }
 }

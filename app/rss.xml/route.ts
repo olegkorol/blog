@@ -1,9 +1,9 @@
 import { getPosts } from '../posts/get-posts.ts'
  
 const CONFIG = {
-  title: 'My Blog',
+  title: "Oleg Korol's Blog",
   siteUrl: 'https://blog.olegkorol.de',
-  description: 'Latest blog posts',
+  description: 'Latest blog posts from Oleg Korol',
   lang: 'en-us'
 }
  
