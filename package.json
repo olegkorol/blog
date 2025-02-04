@@ -1,0 +1,25 @@
+{
+  "name": "blog.olegkorol.de",
+  "type": "module",
+  "scripts": {
+    "dev": "next --turbopack",
+    "build": "next build",
+    "postbuild": "bunx pagefind --site .next/server/app --output-path public/_pagefind",
+    "start": "next start"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/node": "^22.13.1",
+    "@types/react": "^19.0.8"
+  },
+  "peerDependencies": {
+    "typescript": "^5.0.0"
+  },
+  "dependencies": {
+    "next": "^15.1.6",
+    "nextra": "^4.2.1",
+    "nextra-theme-blog": "^4.2.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  }
+}
