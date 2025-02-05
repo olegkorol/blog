@@ -2,8 +2,6 @@ import { ImageResponse } from 'next/og'
 import config from '../config'
 import { getPosts } from './get-posts'
  
-export const runtime = 'edge'
- 
 // Image metadata
 export const alt = config.appName
 export const size = {
