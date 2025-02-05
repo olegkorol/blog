@@ -1,6 +1,14 @@
-export const config = {
-  title: "Oleg Korol's Blog",
-  siteUrl: 'https://blog.olegkorol.de',
-  description: 'Latest blog posts from Oleg Korol',
-  lang: 'en-us'
+const config = {
+  appName: "Oleg Korol's Blog",
+  appDescription:
+    "My experiences and thoughts on software development and other topics. Short notes, TILs and other stuff.",
+  domainName: "blog.olegkorol.de",
+} as ConfigProps;
+
+export default config;
+
+interface ConfigProps {
+  appName: string;
+  appDescription: string;
+  domainName: string;
 }

@@ -2,14 +2,12 @@ import { Footer, Layout, Navbar, ThemeSwitch } from 'nextra-theme-blog'
 import { Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
 import { Analytics } from '@vercel/analytics/react'
+import { getSEOTags } from './seo'
 import 'nextra-theme-blog/style.css'
 import './global.css'
- 
-export const metadata = {
-  title: "Oleg Korol",
-  description: "Oleg Korol's blog"
-}
- 
+
+export const metadata = getSEOTags({canonicalUrlRelative: "/"})
+
 export default async function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" suppressHydrationWarning>
