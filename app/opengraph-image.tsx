@@ -31,7 +31,7 @@ export default async function Image({ params }: { params: { slug: string } }) {
           justifyContent: 'center',
           position: 'relative',
           overflow: 'hidden',
-          background: 'linear-gradient(135deg, #0f172a 0%, #1e293b 100%)',
+          backgroundImage: 'radial-gradient(circle, #051937, #004d7a, #008793, #00bf72, #a8eb12)',
         }}
       >
         <div
