@@ -9,7 +9,7 @@ export const size = {
 export const contentType = 'image/png'
 
 export default async function OGImage({ params }: { params: { slug: string[] } }) {
-  const title = decodeURIComponent(params?.slug.slice(-1)[0] || config.appName)
+  const title = decodeURIComponent(params?.slug?.slice(-1)[0] || config.appName)
   const maxTitleLength = 60
 
   return new ImageResponse(
