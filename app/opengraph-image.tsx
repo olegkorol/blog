@@ -2,7 +2,7 @@ import { ImageResponse } from 'next/og'
 import config from './config'
  
 export const runtime = 'edge'
- 
+
 // Image metadata
 export const alt = config.appName
 export const size = {
@@ -24,26 +24,46 @@ export default async function Image({ params }: { params: { slug: string } }) {
       // ImageResponse JSX element
       <div
         style={{
-          width: '100%',
-          height: '100%',
           display: 'flex',
+          height: '100%',
+          width: '100%',
           alignItems: 'center',
           justifyContent: 'center',
-          position: 'relative',
-          overflow: 'hidden',
-          backgroundImage: 'radial-gradient(circle, #051937, #004d7a, #008793, #00bf72, #a8eb12)',
+          backgroundImage: 'linear-gradient(to bottom, #dbf4ff, #fff1f1)',
+          fontSize: 60,
+          letterSpacing: '-.02em',
+          fontWeight: 700,
+          padding: '40px',
+          boxSizing: 'border-box',
         }}
-      >
+        >
         <div
           style={{
-            position: 'relative',
-            padding: '20px',
-            color: 'white',
-            fontSize: '64px',
-            fontFamily: 'sans-serif',
-            fontWeight: 'bold',
-            textAlign: 'center',
-            maxWidth: '80%',
+            left: 42,
+            top: 42,
+            position: 'absolute',
+            display: 'flex',
+            alignItems: 'center',
+          }}
+        >
+          <span
+            style={{
+              marginLeft: 8,
+              fontSize: 20,
+            }}
+          >
+            ~ blog.olegkorol.de
+          </span>
+        </div>
+        <div
+          style={{
+            backgroundImage: 'linear-gradient(90deg, rgb(121, 40, 202), rgb(255, 0, 128))',
+            backgroundClip: 'text',
+            color: 'transparent',
+            maxWidth: '100%',
+            wordWrap: 'break-word',
+            overflowWrap: 'break-word',
+            whiteSpace: 'pre-wrap',
           }}
         >
           {config.appName}
