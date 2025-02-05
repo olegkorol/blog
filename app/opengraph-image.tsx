@@ -38,9 +38,9 @@ export default async function Image({ params }: { params: { slug: string } }) {
           style={{
             position: 'relative',
             padding: '20px',
-            backgroundColor: 'rgba(0, 0, 0, 0.31)',
             color: 'white',
-            fontSize: '48px',
+            fontSize: '64px',
+            fontFamily: 'sans-serif',
             fontWeight: 'bold',
             textAlign: 'center',
             maxWidth: '80%',
