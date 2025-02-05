@@ -1,6 +1,7 @@
 import { Footer, Layout, Navbar, ThemeSwitch } from 'nextra-theme-blog'
 import { Head, Search } from 'nextra/components'
 import { getPageMap } from 'nextra/page-map'
+import { Analytics } from '@vercel/analytics/react'
 import 'nextra-theme-blog/style.css'
 import './global.css'
  
@@ -48,6 +49,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
             </a>
           </Footer>
         </Layout>
+        <Analytics />
       </body>
     </html>
   )

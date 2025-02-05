@@ -1,0 +1,71 @@
+---
+title: "React RSC Forms"
+date: 2025-02-05
+description: "How to handle forms in React RSC with server actions and client-side state."
+tags:
+  [
+    react,
+    nextjs,
+    notes,
+  ]
+author: Oleg Korol
+---
+
+How to handle forms in React RSC with server actions and client-side state.
+
+### Form
+
+```tsx filename="form.tsx"
+import { SubmitButton } from './submit-button'; // defined below -> submit-button.tsx
+import { doSomething } from './server-action'; // defined below -> server-action.ts
+
+<form
+  action={doSomething}
+  className="..."
+>
+  <input
+    type="email"
+    name="email"
+    placeholder="Your email address"
+    required
+  />
+  <SubmitButton>Sign in with Magic Link</SubmitButton>
+</form>
+```
+
+### Submit button
+
+```tsx filename="submit-button.tsx"
+'use client';
+
+import { useFormStatus } from 'react-dom';
+
+export function SubmitButton({ children }: { children: React.ReactNode }) {
+  const { pending } = useFormStatus();
+
+  return (
+    <button
+      type={pending ? 'button' : 'submit'}
+      aria-disabled={pending}
+    >
+      {children}
+      <span aria-live="polite" className="sr-only" role="status">
+        {pending ? 'Loading' : 'Submit form'}
+      </span>
+    </button>
+  );
+}
+```
+
+### Server action
+
+```tsx filename="server-action.ts"
+'use server';
+
+export async function doSomething(formData: FormData) {
+  const email = formData.get('email');
+  // do something with the email
+  return;
+}
+```
+

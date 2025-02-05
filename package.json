@@ -16,6 +16,7 @@
     "typescript": "^5.0.0"
   },
   "dependencies": {
+    "@vercel/analytics": "^1.4.1",
     "next": "^15.1.6",
     "nextra": "^4.2.1",
     "nextra-theme-blog": "^4.2.1",

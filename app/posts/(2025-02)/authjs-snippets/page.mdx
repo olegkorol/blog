@@ -1,0 +1,81 @@
+---
+title: "Auth.js Snippets"
+date: 2025-02-05
+description: A collection of Auth.js snippets.
+tags:
+  [
+    auth,
+    nextjs,
+    notes,
+  ]
+author: Oleg Korol
+---
+
+Some useful Auth.js (aka. NextAuth) snippets, for quick reference.
+
+### Protected routes
+
+```tsx filename="auth.config.ts"
+import type { NextAuthConfig } from 'next-auth';
+
+export const authConfig = {
+  pages: {
+    signIn: '/login',
+  },
+  providers: [
+    // ...
+  ],
+  callbacks: {
+    authorized({ auth, request: { nextUrl } }) {
+      let isLoggedIn = !!auth?.user;
+      let isOnDashboard = nextUrl.pathname.startsWith('/protected');
+
+      if (isOnDashboard) {
+        if (isLoggedIn) return true;
+        return false; // Redirect unauthenticated users to login page
+      } else if (isLoggedIn) {
+        return Response.redirect(new URL('/protected', nextUrl));
+      }
+
+      return true;
+    },
+  },
+} satisfies NextAuthConfig;
+```
+
+### Credentials provider
+
+Defining the provider:
+
+```ts filename="auth.ts"
+import Credentials from 'next-auth/providers/credentials';
+import { compare } from 'bcrypt-ts';
+import { getUser } from 'app/db'; // your db logic
+
+// [...]
+  providers: [
+    Credentials({
+      async authorize({ email, password }: any) {
+        let user = await getUser(email);
+        if (user.length === 0) return null;
+        let passwordsMatch = await compare(password, user[0].password!);
+        if (passwordsMatch) return user[0] as any;
+      },
+    }),
+  ],
+// [...]
+```
+
+Creating a user:
+
+```ts filename="db.ts"
+import { genSaltSync, hashSync } from 'bcrypt-ts';
+
+export async function createUser(email: string, password: string) {
+  const salt = genSaltSync(10);
+  const hash = hashSync(password, salt);
+
+  return await saveUserToYourDb({ email, password: hash });
+}
+```
+
