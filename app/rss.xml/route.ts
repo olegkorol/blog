@@ -1,11 +1,5 @@
 import { getPosts } from '../posts/get-posts.ts'
- 
-const CONFIG = {
-  title: "Oleg Korol's Blog",
-  siteUrl: 'https://blog.olegkorol.de',
-  description: 'Latest blog posts from Oleg Korol',
-  lang: 'en-us'
-}
+import config from '../config.ts'
  
 export async function GET() {
   const allPosts = await getPosts()
@@ -14,7 +8,7 @@ export async function GET() {
       post => `    <item>
         <title>${post.title}</title>
         <description>${post.frontMatter.description}</description>
-        <link>${CONFIG.siteUrl}${post.route}</link>
+        <link>${config.siteUrl}${post.route}</link>
         <pubDate>${new Date(post.frontMatter.date).toUTCString()}</pubDate>
     </item>`
     )
@@ -22,10 +16,10 @@ export async function GET() {
   const xml = `<?xml version="1.0" encoding="UTF-8" ?>
 <rss version="2.0">
   <channel>
-    <title>${CONFIG.title}</title>
-    <link>${CONFIG.siteUrl}</link>
-    <description>${CONFIG.description}</description>
-    <language>${CONFIG.lang}</language>
+    <title>${config.appName}</title>
+    <link>${config.siteUrl}</link>
+    <description>${config.appDescription}</description>
+    <language>${config.lang}</language>
 ${posts}
   </channel>
 </rss>`

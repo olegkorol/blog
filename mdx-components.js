@@ -14,11 +14,11 @@ const blogComponents = getBlogMDXComponents({
   //   </h1>
   // ),
   DateFormatter: ({ date }) =>
-    `last updated on ${date.toLocaleDateString('en-GB', {
+    `written on ${date.toLocaleDateString('en-GB', {
       day: 'numeric',
       month: 'short',
       year: 'numeric'
-    })}`
+    })}`,
 })
 
 export function useMDXComponents(components) {

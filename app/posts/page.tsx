@@ -1,10 +1,13 @@
 import Link from 'next/link'
 import { PostCard } from 'nextra-theme-blog'
 import { getPosts, getTags } from './get-posts'
+import { getSEOTags } from '../seo'
  
-export const metadata = {
-  title: 'Posts'
-}
+export const metadata = getSEOTags({
+  title: 'Posts',
+  canonicalUrlRelative: '/posts',
+  description: 'List of all posts written by Oleg Korol',
+})
  
 export default async function PostsPage() {
   const tags = await getTags()
@@ -17,7 +20,7 @@ export default async function PostsPage() {
   }
   return (
     <div data-pagefind-ignore="all">
-      <h1>{metadata.title}</h1>
+      <h1>Posts</h1>
       <div
         className="not-prose"
         style={{ display: 'flex', flexWrap: 'wrap', gap: '.5rem' }}

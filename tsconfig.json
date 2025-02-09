@@ -38,7 +38,7 @@
     "**/*.ts",
     "**/*.tsx",
     "**/*.mdx"
-    ],
+, "next-sitemap.config.cjs"    ],
   "exclude": [
     "node_modules"
   ]

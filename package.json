@@ -18,8 +18,8 @@
   "dependencies": {
     "@vercel/analytics": "^1.4.1",
     "next": "^15.1.6",
-    "nextra": "^4.2.1",
-    "nextra-theme-blog": "^4.2.1",
+    "nextra": "^4.2.5",
+    "nextra-theme-blog": "^4.2.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0"
   }
