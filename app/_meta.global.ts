@@ -5,7 +5,8 @@ export default {
   posts: {
     type: 'page',
     items: {
-      reference: {
+      drafts: {
+        type: 'page',
         display: 'hidden'
       }
     }

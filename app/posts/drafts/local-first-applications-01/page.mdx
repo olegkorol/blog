@@ -1,0 +1,108 @@
+---
+title: "Local First Applications"
+date: 2025-02-09
+description: "Local First Applications"
+tags:
+  [
+    local-first,
+    applications,
+  ]
+author: Oleg Korol
+keywords:
+  [
+    local-first,
+    applications,
+  ]
+alternates:
+  canonical: /posts/local-first-applications-01
+---
+
+import { StackBlitzEmbed } from '../../_components/stackblitz'
+import { Bleed, Image} from 'nextra/components'
+import image01 from './assets/image01.svg'
+import image02 from './assets/image02.svg'
+import image03 from './assets/image03.svg'
+
+In this post, I'll try to delve into different possibilities to build a local-first application.
+
+First, we'll dive into what local-first applications are and why you would want to build one.
+
+But even before getting to that, let's take a **very quick** &amp; I promise &amp; look at how we used to host databases in the past (and present).
+
+## Ye olde way
+
+<Image 
+  src={image01} 
+  alt="image01" 
+  style={{ color: 'white', filter: 'invert(0)' }}
+  quality={10}
+  priority
+/>
+
+Traditionally, you had a centralised server, which stored all the data.
+
+This obviously comes with a set of drawbacks, most notably:
+
+- **Latency**: Requests from your users take a long time to reach the server.
+- **Availability**: If for some reason the server is down, your application is rendered completely unusable.
+- **Scalability**: If your application becomes popular, you need to scale your server vertically to handle the load.
+
+## Distributed replicas
+
+<Bleed full>
+  <Image 
+    src={image02} 
+    alt="image02" 
+    style={{ color: 'transparent', filter: 'invert(0)' }}
+    quality={10}
+    priority
+  />
+</Bleed>
+
+To address these issues, distributed database systems were introduced. These systems maintain multiple replicas of the data across different servers, providing:
+
+- **Lower Latency**: Users can connect to the nearest replica.
+- **Higher Availability**: If one server goes down, others can still serve requests.
+- **Scalability**: More replicas can be added as user base grows. You can also scale horizontally and not only vertically.
+
+However, this approach still has some limitations:
+
+- **Complexity**: Managing consistency between replicas is challenging.
+- **Offline Access**: Users can't access data when completely offline.
+
+## Local-first approach
+
+<Image 
+  src={image03} 
+  alt="image03" 
+  style={{ color: 'transparent', filter: 'invert(0)' }}
+  quality={10}
+  priority
+/>
+
+The local-first approach takes distributed systems a step further by bringing the data directly to the user's device. This paradigm shift offers several key advantages:
+
+- **Instant Access**: Data is available immediately without network requests.
+- **Offline Capabilities**: Applications remain fully functional even without internet.
+- **Enhanced Privacy**: Sensitive data stays on the user's device.
+- **Reduced Costs**: Less server infrastructure is needed.
+
+However, implementing local-first applications comes with its own set of challenges:
+
+1. **Data Synchronization**: Keeping data consistent across devices requires sophisticated conflict resolution strategies
+2. **Storage Management**: Local storage limitations must be carefully considered
+3. **Security**: Protecting local data from unauthorized access is crucial
+
+
+There are a few different ways to implement local-first applications.
+
+- You use a local storage solution like IndexedDB (on the browser) or
+- You embed a database in your application using WASM (e.g. SQLite or PGLite)
+
+And then you use some sort of sync algorithm to keep the data in sync between the devices.
+
+The StackBlitz example below demonstrates a basic implementation of a local-first application using modern web technologies. It showcases how data can be stored and managed directly in the browser while still maintaining synchronization capabilities.
+
+<Bleed full>
+  <StackBlitzEmbed projectId="stackblitz-webcontainer-api-starter-5ysktjkg" />
+</Bleed>
