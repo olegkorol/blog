@@ -1,0 +1,176 @@
+---
+title: Dockerized full-stack app with Fly.io
+description: A guide to building full-stack application and deploying it with Fly.io
+date: 2025-02-28
+tags: [
+  frontend,
+  backend,
+  docker,
+  fly.io,
+]
+keywords: [
+  frontend,
+  backend,
+  fly.io,
+  docker,
+]
+alternates:
+  canonical: /posts/full-stack-app-flyio
+---
+
+import { Steps, Tabs } from 'nextra/components'
+
+Alright, let's build a full-stack application and deploy it with Fly.io.
+
+We'll use the following technologies:
+
+- TanStack Start for the frontend, including:
+  - TanStack Router for routing
+  - TanStack Query for data fetching
+  - TanStack Form for form handling
+- Tailwind CSS for styling
+- Fly.io for deployment
+
+<Steps>
+## Setup the project
+
+```bash npm2yarn
+npx create-tsrouter-app@latest --add-ons
+```
+
+
+With the `--add-ons` flag, the CLI will ask us which add-ons we want to add to the project.
+Choose the ones that you think are relevant to your project.
+
+## Prepare it for the Fly.io deployment
+
+Head over to `app.config.ts` and add the following line:
+
+```typescript filename="app.config.ts" {16-18}
+import { defineConfig } from '@tanstack/react-start/config'
+import viteTsConfigPaths from 'vite-tsconfig-paths'
+
+export default defineConfig({
+  tsr: {
+    appDirectory: 'src',
+  },
+  vite: {
+    plugins: [
+      // this is the plugin that enables path aliases
+      viteTsConfigPaths({
+        projects: ['./tsconfig.json'],
+      }),
+    ],
+  },
+ server: {
+   preset: 'node-server', // <=== add this
+ }
+})
+```
+
+Create a `Dockerfile` in the root of the project:
+
+```dockerfile filename="Dockerfile"
+FROM node:20-slim as base
+
+# Install dependencies only when needed
+FROM base AS deps
+WORKDIR /app
+
+# Install dependencies based on the preferred package manager
+COPY package.json pnpm-lock.yaml* ./
+RUN npm install -g pnpm && pnpm install --frozen-lockfile
+
+# Rebuild the source code only when needed
+FROM base AS builder
+WORKDIR /app
+COPY --from=deps /app/node_modules ./node_modules
+COPY . .
+
+# Install pnpm in the builder stage
+RUN npm install -g pnpm
+
+# Build the application
+RUN pnpm build
+
+# Production image, copy all the files and run the server
+FROM node:20-slim AS runner
+WORKDIR /app
+
+ENV NODE_ENV=production
+
+# Create a non-root user
+RUN addgroup --system --gid 1001 nodejs && \
+    adduser --system --uid 1001 nodejs
+
+# THIS IS OPTIONAL, ONLY IF YOU NEED ACCESS TO THE FILE-SYSTEM
+# Create directory for writable files with proper permissions
+RUN mkdir -p /app/data && \
+    chown -R nodejs:nodejs /app/data
+
+# Copy only necessary files
+COPY --from=builder /app/.output ./.output
+
+# Expose the port the app will run on
+EXPOSE 3000
+
+USER nodejs
+
+# Start the Node.js server
+CMD ["node", ".output/server/index.mjs"]
+```
+
+And add a `fly.toml` file in the root of the project as well (with your own `app` and `primary_region` settings):
+
+```toml filename="fly.toml" {3-4}
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+
+app = 'tanstack-react-app' # Replace with your app name
+primary_region = 'lhr' # Replace with your preferred region
+
+[build]
+  dockerfile = 'Dockerfile'
+
+[env]
+  PORT = '3000'
+
+[processes]
+  app = 'node .output/server/index.mjs'
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+```
+
+## Deploy the app
+
+You're ready to go. Let's deploy the app with:
+
+<Tabs items={['First run', 'Subsequent runs']}>
+  <Tabs.Tab>
+    ```bash
+    fly launch
+    # You might need to run `fly auth login` first
+    ```
+  </Tabs.Tab>
+  <Tabs.Tab>
+    ```bash
+    fly deploy
+    ```
+  </Tabs.Tab>
+</Tabs>
+
+## That's a wrap
+
+Congrats! You've just deployed a full-stack application with Fly.io.
+
+</Steps>
