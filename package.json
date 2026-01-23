@@ -18,7 +18,7 @@
   "dependencies": {
     "@stackblitz/sdk": "^1.11.0",
     "@vercel/analytics": "^1.4.1",
-    "next": "^15.1.9",
+    "next": "15.1.11",
     "nextra": "^4.2.5",
     "nextra-theme-blog": "^4.2.5",
     "react": "^19.0.0",
