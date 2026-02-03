@@ -1,0 +1,96 @@
+---
+title: "Railway: build- and runtime env vars"
+date: 2026-02-03
+description: A guide to setting up Docker environment variables in Railway.
+tags:
+  [
+    railway,
+    docker,
+    ci/cd,
+    TIL,
+  ]
+keywords:
+  [
+    railway,
+    docker,
+    environment variables,
+  ]
+# metadataBase: https://blog.olegkorol.de
+alternates:
+  canonical: /posts/railway-docker-env-vars
+---
+
+{/* import { Updated } from '../../_components/updated'; */}
+
+{/* <Updated date={'2026-02-03'} /> */}
+
+If you're deploying a Next.js app to Railway using a Dockerfile and wondering why your `NEXT_PUBLIC_*` environment variables are always `undefined` despite being set in the Railway dashboard — you're not alone.
+
+## The Problem
+
+You set `NEXT_PUBLIC_XYZ` in Railway, but your app keeps falling back to the default:
+
+```tsx
+// This always uses the fallback, even though the var is set in Railway!
+const someUrl = process.env.NEXT_PUBLIC_XYZ || 'https://fallback.com';
+```
+
+## Why This Happens
+
+Two things are colliding here:
+
+1. **Next.js inlines `NEXT_PUBLIC_*` variables at build time.** During `next build`, every `process.env.NEXT_PUBLIC_*` reference gets replaced with the literal string value. If the variable isn't set when you build, it's baked in as `undefined` forever.
+
+2. **Railway only auto-injects env vars at runtime, not build time.** When building a Docker image, Railway doesn't automatically pass your dashboard variables to the build process.
+
+So even though the variable exists in Railway, it wasn't there when `next build` ran inside Docker, and the bundled JS has `undefined` hardcoded.
+
+## The Fix
+
+You need to explicitly declare the variable as a Docker `ARG` so Railway knows to pass it during the build.
+
+```dockerfile filename="Dockerfile"
+FROM node:24-alpine AS builder
+
+# ... copy files, install deps ...
+
+# Declare the ARG — Railway will automatically inject the value
+# if it exists in your service's environment variables
+ARG NEXT_PUBLIC_XYZ="https://fallback.com"
+
+# Convert ARG to ENV so `next build` can see it
+ENV NEXT_PUBLIC_XYZ=$NEXT_PUBLIC_XYZ
+
+# Now next build will inline the real value
+RUN pnpm run build
+```
+
+### Key points:
+
+- **`ARG`** makes the variable available during the build. Railway sees this and passes the value from your dashboard.
+- **`ENV`** exposes it to the build process (so `next build` can read `process.env.NEXT_PUBLIC_*`).
+- **Default values** in `ARG` are fallbacks if Railway doesn't provide a value — they don't block Railway from injecting the real one.
+
+## Build-time vs Runtime: Quick Reference
+
+| Variable Type | When Read | Needs `ARG` in Dockerfile? |
+|---------------|-----------|---------------------------|
+| `NEXT_PUBLIC_*` | Build time (inlined into JS bundle) | ✅ Yes |
+| Server-side (e.g., `DATABASE_URL`) | Runtime (read on each request) | ❌ No* |
+
+*Unless your build process needs it (e.g., Drizzle generating types, Prisma generating client).
+
+## Common Gotcha
+
+If you add a new `NEXT_PUBLIC_*` variable to Railway but forget to add the `ARG` + `ENV` to your Dockerfile, you'll need to:
+
+1. Add the `ARG` and `ENV` declarations
+2. **Trigger a new deploy** so the image rebuilds with the variable present
+
+Just changing the value in Railway's dashboard doesn't help — the old build is cached with `undefined` already baked in.
+
+## TL;DR
+
+- `NEXT_PUBLIC_*` = inlined at build time = needs `ARG` + `ENV` in Dockerfile
+- Server-side vars = read at runtime = Railway injects automatically
+- After adding new `ARG`s, redeploy to rebuild the image
