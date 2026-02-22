@@ -4,6 +4,10 @@ import { getPageMap } from 'nextra/page-map'
 import { Analytics } from '@vercel/analytics/react'
 import { getSEOTags } from './seo'
 import 'nextra-theme-blog/style.css'
+/* Load chessground CSS in layout so global.css overrides apply (component chunk would load after global) */
+import '@lichess-org/chessground/assets/chessground.base.css'
+import '@lichess-org/chessground/assets/chessground.brown.css'
+import '@lichess-org/chessground/assets/chessground.cburnett.css'
 import './global.css'
 
 export const metadata = getSEOTags({canonicalUrlRelative: "/"})

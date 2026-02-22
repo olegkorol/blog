@@ -16,6 +16,8 @@
     "typescript": "^5.9.3"
   },
   "dependencies": {
+    "@lichess-org/chessground": "^10.0.2",
+    "@lichess-org/pgn-viewer": "^2.5.9",
     "@stackblitz/sdk": "^1.11.0",
     "@vercel/analytics": "^1.6.1",
     "next": "^15.1.9",
