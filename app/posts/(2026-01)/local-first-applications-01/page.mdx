@@ -1,17 +1,19 @@
 ---
 title: "Local First Applications"
-date: 2025-02-09
+date: 2026-01-15
 description: "Local First Applications"
 tags:
   [
     local-first,
-    applications,
   ]
 author: Oleg Korol
 keywords:
   [
     local-first,
     applications,
+    databases,
+    offline-first,
+    database-syncing,
   ]
 alternates:
   canonical: /posts/local-first-applications-01
@@ -22,6 +24,9 @@ import { Bleed, Image} from 'nextra/components'
 import image01 from './assets/image01.svg'
 import image02 from './assets/image02.svg'
 import image03 from './assets/image03.svg'
+import {Updated} from '../../_components/updated'
+
+<Updated date="2026-02-22" />
 
 In this post, I'll try to delve into different possibilities to build a local-first application.
 
@@ -101,8 +106,10 @@ There are a few different ways to implement local-first applications.
 
 And then you use some sort of sync algorithm to keep the data in sync between the devices.
 
-The StackBlitz example below demonstrates a basic implementation of a local-first application using modern web technologies. It showcases how data can be stored and managed directly in the browser while still maintaining synchronization capabilities.
+I found a couple of interesting projects that implement local-first applications, which I'll cover in a future post.
+
+{/* The StackBlitz example below demonstrates a basic implementation of a local-first application using modern web technologies. It showcases how data can be stored and managed directly in the browser while still maintaining synchronization capabilities.
 
 <Bleed full>
   <StackBlitzEmbed projectId="stackblitz-webcontainer-api-starter-5ysktjkg" />
-</Bleed>
+</Bleed> */}
