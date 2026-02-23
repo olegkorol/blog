@@ -8,22 +8,23 @@
     "start": "next start"
   },
   "devDependencies": {
-    "@types/bun": "latest",
+    "@types/bun": "^1.3.9",
     "@types/node": "^24.0.0",
-    "@types/react": "^19.2.10"
+    "@types/react": "^19.2.10",
+    "raw-loader": "^4.0.2"
   },
   "peerDependencies": {
     "typescript": "^5.9.3"
   },
   "dependencies": {
-    "@lichess-org/chessground": "^10.0.2",
-    "@lichess-org/pgn-viewer": "^2.5.9",
     "@stackblitz/sdk": "^1.11.0",
     "@vercel/analytics": "^1.6.1",
+    "cm-chessboard": "^8.11.5",
     "next": "^15.1.9",
     "nextra": "^4.6.1",
     "nextra-theme-blog": "^4.6.1",
     "react": "^19.2.4",
     "react-dom": "^19.2.4"
-  }
+  },
+  "packageManager": "bun@1.3.9"
 }

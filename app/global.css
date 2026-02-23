@@ -13,9 +13,7 @@ header a[aria-current='true'] {
   text-decoration: gray underline 2px;
 }
 
-.chessboard > div > cg-container > coords.ranks > coord.coord-dark {
-  color: rgba(72, 72, 72, 0.95) !important;
-}
-.chessboard > div > cg-container > coords.ranks > coord.coord-light {
-  color: rgba(255, 255, 255, 0.95) !important;
+.chessboard-wrapper {
+  max-width: 400px;
+  margin: 1.5rem auto;
 }

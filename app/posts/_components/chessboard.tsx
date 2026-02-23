@@ -1,63 +1,52 @@
-"use client";
+"use client"
 
-import { useEffect, useRef, useState } from "react";
-import { Chessground as ChessgroundApi } from "@lichess-org/chessground";
-import type { Api } from "@lichess-org/chessground/api";
-import type { Config } from "@lichess-org/chessground/config";
-
+import { useEffect, useRef } from "react"
+import { Chessboard as CMChessboard, FEN, COLOR, BORDER_TYPE } from "cm-chessboard"
+import "cm-chessboard/assets/chessboard.css"
 
 interface ChessboardProps {
-  width?: number;
-  height?: number;
-  contained?: boolean;
-  config?: Config;
+  position?: string
+  orientation?: "white" | "black"
 }
 
-const defaultConfig: Config = {
-  coordinates: true,
-  viewOnly: true,
-  // coordinatesOnSquares: true,
-  // animation: { enabled: true, duration: 200 },
-};
-
-export default function Chessboard({
-  width = 500,
-  height = 500,
-  contained = false,
-  config = {},
+export function ChessboardComponent({ 
+  position = FEN.start,
+  orientation = "white"
 }: ChessboardProps) {
-  const [api, setApi] = useState<Api | null>(null);
-  const ref = useRef<HTMLDivElement>(null);
-
-  config = {
-    ...defaultConfig,
-    ...config,
-  }
+  const containerRef = useRef<HTMLDivElement>(null)
+  const boardRef = useRef<CMChessboard | null>(null)
 
   useEffect(() => {
-    if (!ref.current) return;
-    const chessgroundApi = ChessgroundApi(ref.current, config);
-    setApi(chessgroundApi);
-    return () => chessgroundApi.destroy();
-  }, []);
+    if (!containerRef.current) return
+    
+    boardRef.current = new CMChessboard(containerRef.current, {
+      position,
+      orientation: orientation === "white" ? COLOR.white : COLOR.black,
+      responsive: true,
+      assetsUrl: "/chessboard/",
+      style: {
+        pieces: { file: "pieces/staunty.svg" },
+        cssClass: "green",
+        borderType: BORDER_TYPE.frame,
+        showCoordinates: true
+      }
+    })
+
+    return () => {
+      boardRef.current?.destroy()
+      boardRef.current = null
+    }
+  }, [])
 
   useEffect(() => {
-    api?.set(config);
-  }, [api, config]);
+    boardRef.current?.setPosition(position)
+  }, [position])
 
-  return (
-    <div
-      className="chessboard"
-      data-chessboard
-      style={{
-        height: contained ? "100%" : height,
-        width: contained ? "100%" : width,
-      }}
-    >
-      <div
-        ref={ref}
-        style={{ height: "100%", width: "100%", display: "table" }}
-      />
-    </div>
-  );
+  useEffect(() => {
+    boardRef.current?.setOrientation(
+      orientation === "white" ? COLOR.white : COLOR.black
+    )
+  }, [orientation])
+
+  return <div ref={containerRef} className="chessboard-wrapper" />
 }

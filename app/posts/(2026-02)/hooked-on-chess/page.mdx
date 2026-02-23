@@ -19,7 +19,7 @@ alternates:
   canonical: /posts/hooked-on-chess
 ---
 
-import Chessboard from '../../_components/chessboard';
+import { ChessboardComponent as Chessboard } from '../../_components/chessboard'
 
 Eighteen days ago my brother proposed to play one game of chess online. We played one game and something clicked. I've played every day since. It is not that I didn't know this game at all. I tried playing it like 8 years ago but it did not resonate with me. This time, I somehow got hooked. I started reading about it, studying basic principles, solving puzzles and watching live tournaments. I think I'm obsessed.
 
@@ -76,10 +76,6 @@ There's a Chinese proverb: *"A journey of a thousand li begins with a single ste
 
 Here's mine.
 
-<Chessboard config={{
-  fen: 'rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1',
-  lastMove: ['e2', 'e4'],
-  highlight: { lastMove: true },
-}} />
+<Chessboard position="rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq e3 0 1" />
 
 I will try to follow this plan and write about my progress here, one blunder at a time.
