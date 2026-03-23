@@ -17,3 +17,16 @@ header a[aria-current='true'] {
   max-width: 400px;
   margin: 1.5rem auto;
 }
+
+/* Table alternating row colors and dark mode (can't be expressed as inline styles) */
+.table-row:nth-child(even) {
+  background-color: #f9fafb;
+}
+
+.dark .table-row:nth-child(even) {
+  background-color: rgba(55, 65, 81, 0.3);
+}
+
+.dark thead {
+  border-bottom-color: #4b5563;
+}
