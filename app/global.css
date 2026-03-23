@@ -18,46 +18,15 @@ header a[aria-current='true'] {
   margin: 1.5rem auto;
 }
 
-/* Modern borderless table styling */
-.table-container {
-  overflow-x: auto;
-  margin: 1.5em 0;
-}
-
-.table-container table {
-  width: 100%;
-  border-collapse: collapse;
-}
-
-.table-container table,
-.table-container th,
-.table-container td,
-.table-container tr {
-  border: none;
-}
-
-.table-container thead {
-  border-bottom: 2px solid #d1d5db;
-}
-
-.table-container th {
-  font-weight: 600;
-  padding: 0.625rem 1rem;
-  text-align: left;
-}
-
-.table-container td {
-  padding: 0.625rem 1rem;
-}
-
-.table-container tbody tr:nth-child(even) {
+/* Table alternating row colors and dark mode (can't be expressed as inline styles) */
+.table-row:nth-child(even) {
   background-color: #f9fafb;
 }
 
-.dark .table-container thead {
-  border-bottom-color: #4b5563;
+.dark .table-row:nth-child(even) {
+  background-color: rgba(55, 65, 81, 0.3);
 }
 
-.dark .table-container tbody tr:nth-child(even) {
-  background-color: rgba(55, 65, 81, 0.3);
+.dark thead {
+  border-bottom-color: #4b5563;
 }
