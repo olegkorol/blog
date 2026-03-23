@@ -1,18 +1,6 @@
 import { useMDXComponents as getBlogMDXComponents } from 'nextra-theme-blog'
 
 const blogComponents = getBlogMDXComponents({
-  // h1: ({ children }) => (
-  //   <h1
-  //     style={{
-  //       WebkitBackgroundClip: 'text',
-  //       WebkitTextFillColor: 'transparent',
-  //       backgroundClip: 'text',
-  //       backgroundImage: 'linear-gradient(90deg,#7928CA,#FF0080)'
-  //     }}
-  //   >
-  //     {children}
-  //   </h1>
-  // ),
   DateFormatter: ({ date }) =>
     `written on ${date.toLocaleDateString('en-GB', {
       day: 'numeric',
@@ -24,6 +12,14 @@ const blogComponents = getBlogMDXComponents({
 export function useMDXComponents(components) {
   return {
     ...blogComponents,
+    table: ({ children, ...props }) => (
+      <div className="table-container">
+        <table {...props}>{children}</table>
+      </div>
+    ),
+    tr: (props) => <tr {...props} />,
+    th: (props) => <th {...props} />,
+    td: (props) => <td {...props} />,
     ...components
   }
 }
