@@ -1,0 +1,184 @@
+---
+title: "US LLC: Filing Taxes - Part I"
+date: 2026-03-23
+description: My notes on filing taxes for my single-member U.S. foreign-owned disregarded entity LLC
+tags:
+  [
+    taxes,
+    llc,
+  ]
+keywords:
+  [
+    taxes,
+    llc,
+    "single-member llc",
+    "foreign owned diregarded entity"
+  ]
+# metadataBase: https://blog.olegkorol.de
+alternates:
+  canonical: /posts/us-llc-taxes-part-i
+---
+
+> Note: This is not tax advice. Do your due-dilligence when filing taxes and consult a specialist.
+
+This year was my first time filing taxes for a U.S. LLC (namely a *single-member, foreign-owned, disregarded entity*).
+So I did some research and decided to write everything down for future reference. Maybe this helps someone else too.
+
+Please note that if your LLC setup differs from mine, some of the steps may be different.
+
+This post only covers the "Single Member LLC Tax Filing", not the "Annual Report". I will cover the Annual Report in a separate post.
+
+## TL;DR — Overview 
+
+Here is an overview of the steps:
+
+- Compile your PDF in this order: **pro forma 1120 first → Form 5472 behind it → Part V attachment at the back**
+    - Make sure "Foreign-Owned U.S. Disregarded Entity" is written at the top of the 1120
+    - All forms and attachment(s) should be merged into one single PDF
+- Send a fax to **+1 (855) 887-7737** (dedicated IRS fax line for foreign-owned DEs)
+    - Send at **300 DPI or higher** (with e.g. [Fax.Plus](https://fax.plus/) or [WiseFax](https://www.wisefax.com/), which handle this automatically)
+    - **Download and save your transmission confirmation receipt** — this is your proof of filing
+
+Where to get the forms mentioned above:
+
+- Pro Forma 1120: [Download here](https://www.irs.gov/pub/irs-pdf/f1120.pdf)
+- Form 5472: [Download here](https://www.irs.gov/pub/irs-pdf/f5472.pdf)
+
+## Pro Forma 1120
+
+| Field | What to Enter |
+| --- | --- |
+| **Name** | ✅ Your LLC name |
+| **Address** | ✅ LLC Registered address |
+| **B — EIN** | ✅ Your EIN |
+| **C — Date incorporated** | ✅ LLC formation date |
+| **D — Total assets** | ✅ End-of-year balance |
+| **E(1) — Initial return** | ✅ Check this if it is the first filing |
+| **Tax year dates** | ✅ e.g. Jan 1 - Dec 31, 2025, or leave blank |
+| **Top notation** | ✅ "Foreign-Owned U.S. Disregarded Entity" (important) |
+| **Signature** | ✅ Sign and date as owner |
+
+## Form 5472
+
+Here is a summary. Each part is explained in more detail below.
+
+| Part | Action |
+|------|--------|
+| Part I | ✅ Fill completely, check boxes 2 and 3 |
+| Part II | ✅ Fill fields 4a-4e with YOUR info (leave 5a-7e blank) |
+| Part III | ✅ Fill with YOUR info again, check "Foreign person" |
+| Part IV | ✅ Complete but all lines = $0 (transactions go in Part V) |
+| Part V | ✅ Check the box + attach a separate sheet listing contributions/distributions |
+| Part VI | ⬜ Leave blank |
+| Part VII | ✅ All "No" |
+| Part VIII | ⬜ Leave blank |
+| Part IX | ⬜ Leave blank |
+
+### PART I — The LLC
+
+| Field | What to Enter |
+| --- | --- |
+| **1a Name** | Your LLC's full legal name |
+| **Address** | LLC Registered address |
+| **1b EIN** | Your EIN |
+| **1c Total assets** | End-of-year LLC bank balance in USD. Zero or near-zero is fine. |
+| **1d Principal business activity** | e.g. "Software Development" or "Digital Products" |
+| **1e Activity code** | Look up at IRS NAICS codes — e.g. 511210 for software, 541511 for custom programming |
+| **1f Total value of gross payments** | Total USD value of all transactions reported on THIS form (contributions + distributions combined) |
+| **1g Total number of Forms 5472** | 1 (you're only filing one) |
+| **1h Total value on ALL Forms 5472** | Same number as 1f (since you only have one) |
+| **1j Initial year checkbox** | Check this if it's your first year filing |
+| **1l Country of incorporation** | United States |
+| **1m Date of incorporation** | Your LLC formation date |
+| **1n Country filing income tax as resident** | Leave blank — disregarded entity, files no foreign income tax return |
+| **1o Principal country where business conducted** | Country where you reside |
+| **Box 2** | Check it — a foreign person owns 100% of the LLC |
+| **Box 3** | Check it — this is the critical "foreign-owned US DE" checkbox |
+
+### PART II — You as the 25%+ Foreign Shareholder
+
+Only fill **fields 4a-4e** (one shareholder = you). Leave 5a-7e completely blank.
+
+| Field | What to Enter |
+| --- | --- |
+| **4a Name and address** | Your full legal name + your personal address |
+| **4b(1) U.S. identifying number** | Leave blank (you have no SSN/ITIN) |
+| **4b(2) Reference ID number** | Make one up — e.g. simply "OWNER-01" |
+| **4b(3) FTIN** | Your foreign FTIN or N/A |
+| **4c Principal country where business conducted** | Country where you reside |
+| **4d Country of citizenship/organization** | Your citizenship |
+| **4e Country filing income tax as resident** | Country where you reside |
+
+### PART III — Related Party
+
+The "related party" is whoever the LLC had transactions with. Since you're a single-member LLC and you're the only person who moved money to/from the LLC, **you are also the related party**. Fill it with your info again.
+
+| Field | What to Enter |
+| --- | --- |
+| **Foreign/U.S. person checkbox** | Check **"Foreign person"** |
+| **8a Name and address** | Your name + your personal address (same as Part II) |
+| **8b(1) U.S. identifying number** | Leave blank |
+| **8b(2) Reference ID number** | Same reference ID you used in Part II |
+| **8b(3) FTIN** | Your FTIN or N/A again |
+| **8c Principal business activity** | Your personal activity, e.g. "Individual investor / owner" |
+| **8d Activity code** | Leave blank or put 0 |
+| **8e Relationship checkboxes** | Check **"25% foreign shareholder"** |
+| **8f Principal country where business conducted** | Your country |
+| **8g Country filing income tax as resident** | Where you pay taxes |
+
+### PART IV — Monetary Transactions
+
+Because you checked "foreign person" in Part III, the form technically requires you to complete Part IV. However — **and this is important** — for a foreign-owned US DE, **contributions and distributions do NOT go here**. They go in **Part V** (see below). Part IV is for arm's-length commercial transactions (sales, rents, royalties, loans) between the LLC and a foreign related party.
+
+For your situation, **every line in Part IV is almost certainly $0 or blank**:
+
+| Field | What to Enter |
+|-------|--------------|
+| Lines 9-21 (amounts received) | All blank/$0 — no sales, royalties, rents etc. between you and the LLC |
+| Line 22 (total received) | blank/$0 |
+| Lines 23-35 (amounts paid) | All blank/$0 |
+| Line 36 (total paid) | blank/$0 |
+
+### PART V — THIS is Where Your Contributions & Distributions Go
+
+This part was **specifically created** for foreign-owned US DEs. It says:
+
+> *"...amounts paid or received in connection with the formation, dissolution, acquisition, and disposition of the entity, **including contributions to and distributions from the entity**"*
+
+**What to do:**
+
+1. ✅ **Check the checkbox** in Part V
+2. **Attach a separate sheet** (plain paper or a simple Word/PDF doc) titled something like:
+
+Then list each transaction simply, like:
+
+If nothing happened: *"No contributions or distributions were made during the tax year."* — still attach the sheet and check the box.
+    
+    > *"Form 5472 — Part V Attachment — [LLC Name] — EIN XX-XXXXXXX — Tax Year 20XX"*
+    > 
+    
+    | Date | Description | Amount |
+    | --- | --- | --- |
+    | 2024-03-15 | Capital contribution by owner to fund LLC bank account | $500 |
+    | 2024-09-01 | Distribution from LLC to owner | $3,000 |
+
+### PART VI — Nonmonetary Transactions
+
+Leave blank. You probably didn't transfer property, IP, or assets.
+
+
+### PART VII — Yes/No Questions (All reporting corps must complete)
+
+| Question | Your Answer |
+| --- | --- |
+| **37** Import goods from foreign related party? | **No** |
+| **39** Foreign parent in cost sharing arrangement? | **No** |
+| **40a** Interest/royalty deductions disallowed under §267A? | **No** |
+| **41a** Claiming FDII deduction? | **No** |
+| **42a** Loans with safe-haven rate rules? | **No** |
+| **42b** Same, outside safe-haven range? | **No** |
+| **43a** Covered debt instrument issued? | **No** |
+
+Just tick **No** straight down the column for all of them.
+
+By now you should be ready to compile your PDF and send it to the IRS fax line. See the "Overview" section at the top again.
